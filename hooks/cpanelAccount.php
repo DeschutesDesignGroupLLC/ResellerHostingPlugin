@@ -6,7 +6,7 @@ if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
 	exit;
 }
 
-class hook332 extends _HOOK_CLASS_
+class hook44 extends _HOOK_CLASS_
 {
     /**
      * Create

@@ -6,7 +6,7 @@ if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
 	exit;
 }
 
-class hook330 extends _HOOK_CLASS_
+class hook42 extends _HOOK_CLASS_
 {
     /**
      * Package Types
@@ -42,7 +42,7 @@ class hook330 extends _HOOK_CLASS_
         // Remove dedicated hosting options
         $radio->options['toggles']['reseller'] = array_diff(
                 $radio->options['toggles']['reseller'],
-                array( 'p_queue', 'p_quota', 'p_bwlimit', 'p_maxftp', 'p_maxsql', 'p_maxpop', 'p_maxlst', 'p_maxsub', 'p_maxpark', 'p_maxaddon', 'p_ip', 'p_cgi', 'p_frontpage', 'p_hasshell' ) );
+                array( 'p_quota', 'p_bwlimit', 'p_maxftp', 'p_maxsql', 'p_maxpop', 'p_maxlst', 'p_maxsub', 'p_maxpark', 'p_maxaddon', 'p_ip', 'p_cgi', 'p_frontpage', 'p_hasshell' ) );
 
         // Get the saved configuration
         $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );

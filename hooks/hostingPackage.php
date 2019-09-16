@@ -6,7 +6,7 @@ if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
 	exit;
 }
 
-class hook331 extends _HOOK_CLASS_
+class hook43 extends _HOOK_CLASS_
 {
     /**
      * ACP Fields
@@ -25,7 +25,7 @@ class hook331 extends _HOOK_CLASS_
         $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
 
         // Add our custom plan field
-        $fields['package_settings']['plan'] = new \IPS\Helpers\Form\Text( 'p_plan', $package->type === 'hosting' ? $configuration[$package->id] : NULL, FALSE );
+        $fields['package_settings']['plan'] = new \IPS\Helpers\Form\Text( 'p_plan', $package->type === 'hosting' ? $configuration[$package->id] : NULL, isset( $configuration[$package->id] ) AND $configuration[$package->id] != NULL ? TRUE : FALSE );
 
         // Return the fields
         return $fields;
