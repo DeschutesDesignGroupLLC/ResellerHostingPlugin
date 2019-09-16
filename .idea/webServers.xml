@@ -2,13 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="ee1f15be-1bdb-45b9-b041-e584b3e9e3af" name="Deschutes Design Group LLC" url="http://192.185.129.4">
-        <fileTransfer host="192.185.129.4" port="21">
-          <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
-          </advancedOptions>
-          <option name="port" value="21" />
-        </fileTransfer>
+      <webServer id="ee1f15be-1bdb-45b9-b041-e584b3e9e3af" name="Deschutes Design Group LLC" url="http://localhost:8888/ipbdevelopment">
+        <fileTransfer port="0" mountedRoot="/Applications/MAMP/htdocs/ipbdevelopment/plugins/resellerhostingcpanelintegration" accessType="MOUNT" />
       </webServer>
     </option>
   </component>

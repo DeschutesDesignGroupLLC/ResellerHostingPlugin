@@ -5,7 +5,7 @@
       <paths name="Deschutes Design Group LLC">
         <serverdata>
           <mappings>
-            <mapping deploy="/public_html/plugins/resellerhosting" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

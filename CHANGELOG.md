@@ -6,4 +6,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.2] - 2019-09-15
 ### Fixed
-- Added Server Queue field back to ACP form that was throwing an error on the frontent.
+- Added Server Queue field back to ACP form that was throwing an error on the frontend.
