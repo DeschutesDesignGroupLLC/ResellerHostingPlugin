@@ -39,6 +39,9 @@ class hook44 extends _HOOK_CLASS_
             // If we get an error
             if ( !$response['result'][0]['status'] )
             {
+                // Log the error
+                \IPS\Log::log( $response, 'reseller' );
+
                 // Throw an error
                 throw new \IPS\nexus\Hosting\Exception( $this->server, $response['result'][0]['statusmsg'] );
             }
@@ -73,6 +76,9 @@ class hook44 extends _HOOK_CLASS_
             // If we have an error
             if( !$response['result'][0]['status'] )
             {
+                // Log the error
+                \IPS\Log::log( $response, 'reseller' );
+
                 // Throw error
                 throw new \IPS\nexus\Hosting\Exception( $this->server, $response['result'][0]['statusmsg'] );
             }

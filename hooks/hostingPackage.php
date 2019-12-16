@@ -25,10 +25,80 @@ class hook43 extends _HOOK_CLASS_
         $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
 
         // Add our custom plan field
-        $fields['package_settings']['plan'] = new \IPS\Helpers\Form\Text( 'p_plan', $package->type === 'hosting' ? $configuration[$package->id] : NULL, isset( $configuration[$package->id] ) AND $configuration[$package->id] != NULL ? TRUE : FALSE );
+        $fields['package_settings']['plan'] = new \IPS\Helpers\Form\Text( 'p_plan', $package->type === 'hosting' ? $configuration[ $package->id ] : NULL, TRUE);
 
         // Return the fields
         return $fields;
+    }
+
+    /**
+     * ACP Edit Form
+     *
+     * @param	\IPS\nexus\Purchase				$purchase	The purchase
+     * @param	\IPS\Helpers\Form				$form	The form
+     * @param	\IPS\nexus\Purchase\RenewalTerm	$renewals	The renewal term
+     * @return	string
+     */
+    public function acpEdit( \IPS\nexus\Purchase $purchase, \IPS\Helpers\Form $form, $renewals )
+    {
+        // Get the saved configuration
+        $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
+
+        // If this is a reseller hosting package
+        if ( \in_array( $this->id, array_keys( $configuration ) ) )
+        {
+            // Add our plan fields
+            $form->addHeader( 'reseller_hosting_edit_form_header' );
+            $form->add( new \IPS\Helpers\Form\Text( 'p_plan', $configuration[ $this->id ], TRUE ) );
+        }
+
+        // Not a reseller hosting package
+        else
+        {
+            // Return the parent fields
+            return parent::acpEdit( $purchase, $form, $renewals );
+        }
+    }
+
+    /**
+     * ACP Edit Save
+     *
+     * @param	\IPS\nexus\Purchase	$purchase	The purchase
+     * @param	array				$values		Values from form
+     * @return	string
+     */
+    public function acpEditSave( \IPS\nexus\Purchase $purchase, array $values )
+    {
+        // Get the saved configuration
+        $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
+
+        // If this is a reseller hosting package
+        if ( \in_array( $this->id, array_keys( $configuration ) ) )
+        {
+            // Try and load account
+            try
+            {
+                // Load account
+                $account = \IPS\nexus\Hosting\Account::load( $purchase->id );
+
+                // Update the account
+                $update = array( 'p_plan' => $values['p_plan'] );
+                $account->edit( $update );
+
+                // Unset the value
+                unset( $values['p_plan'] );
+            }
+
+            // Unable to load account
+            catch ( \OutOfRangeException $e ) {}
+        }
+
+        // Not a reseller hosting package
+        else
+        {
+            // Return the parent
+            return parent::acpEditSave( $purchase, $values );
+        }
     }
 
     /**
@@ -45,7 +115,7 @@ class hook43 extends _HOOK_CLASS_
         $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
 
         // If we have a plan name with the new package
-        if ( isset( $configuration[$newPackage->id] ) AND $configuration[$newPackage->id] != NULL )
+        if ( \in_array( $newPackage->id, array_keys( $configuration ) ) )
         {
             // Try and load account
             try
@@ -54,10 +124,10 @@ class hook43 extends _HOOK_CLASS_
                 $account = \IPS\nexus\Hosting\Account::load( $purchase->id );
 
                 // If our new package plan is different than the old
-                if ( $configuration[$newPackage->id] !=  $configuration[$this->id] )
+                if ( $configuration[ $newPackage->id ] != $configuration[ $this->id ] )
                 {
                     // Update the account
-                    $update = array( 'p_plan' => $configuration[$newPackage->id] );
+                    $update = array( 'p_plan' => $configuration[ $newPackage->id ] );
                     $account->edit( $update );
                 }
             }

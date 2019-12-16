@@ -39,16 +39,21 @@ class hook42 extends _HOOK_CLASS_
         // Get product radio toggle
         $radio = $form->elements['package_settings']['p_type'];
 
-        // Remove dedicated hosting options
+        // Remove dedicated hosting options from reseller type
         $radio->options['toggles']['reseller'] = array_diff(
                 $radio->options['toggles']['reseller'],
                 array( 'p_quota', 'p_bwlimit', 'p_maxftp', 'p_maxsql', 'p_maxpop', 'p_maxlst', 'p_maxsub', 'p_maxpark', 'p_maxaddon', 'p_ip', 'p_cgi', 'p_frontpage', 'p_hasshell' ) );
+
+        // Remove plan from dedicated type
+        if ( ( $key = array_search( 'p_plan', $radio->options['toggles']['hosting'] ) ) !== FALSE ) {
+            unset($radio->options['toggles']['hosting'][$key]);
+        }
 
         // Get the saved configuration
         $configuration = json_decode( \IPS\Settings::i()->resellerhosting_configuration, TRUE );
 
         // If we have a saved reseller configuration
-        if ( isset( $configuration[$this->id] ) AND $configuration[$this->id] != NULL )
+        if ( \in_array( $this->id, array_keys( $configuration ) ) )
         {
             // Set the radio to reseller
             $radio->value = 'reseller';
